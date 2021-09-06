@@ -1,4 +1,5 @@
 import "./App.css";
+import Tasks from "./tasks/tasks";
 
 function App() {
   return (
@@ -6,6 +7,7 @@ function App() {
       <Topbar />
       <hr size="1" />
       <Addtask />
+      <Tasks />
     </div>
   );
 }

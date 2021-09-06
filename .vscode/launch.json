@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TaskManagementAppApplication<Backend>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.tasks.app.TaskManagementAppApplication",
+            "projectName": "Backend",
+            "args": ""
+        }
+    ]
+}
