@@ -16,5 +16,5 @@ public class Todolist {
   @Id
   private String id;
   private String task;
-  private boolean completed;
+  private String status;
 }

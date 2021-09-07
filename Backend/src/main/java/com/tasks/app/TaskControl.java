@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 @CrossOrigin
 @RestController
@@ -35,13 +36,18 @@ public class TaskControl {
     public Todolist postMethodName(@RequestBody Todolist todo) {
         return manageTask.save(todo);
     }
-/*
+
   @PutMapping("/{id}")
   public Todolist PutMapping(@PathVariable String id) {
-    Todolist oldTask = manageTask.findById(id);
-    oldTask.setCompleted(true);
+    Todolist oldTask = manageTask.findById(id).orElse(null);
+    oldTask.setStatus("completed");
     manageTask.save(oldTask);
     return oldTask;
     }
-*/
+  
+  @DeleteMapping("/{id}")
+  public String DeleteUser(@PathVariable String id) {
+    manageTask.deleteById(id);
+    return id;
+  }
 }
