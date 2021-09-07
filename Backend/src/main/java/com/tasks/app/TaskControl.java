@@ -40,7 +40,7 @@ public class TaskControl {
   @PutMapping("/{id}")
   public Todolist PutMapping(@PathVariable String id) {
     Todolist oldTask = manageTask.findById(id).orElse(null);
-    oldTask.setStatus("completed");
+    oldTask.setStatus("completed"); //sets the status of the task as completed when checkbox is checked
     manageTask.save(oldTask);
     return oldTask;
     }
