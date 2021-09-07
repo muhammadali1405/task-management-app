@@ -56,6 +56,22 @@
   outline:none;
   font-size: 16px;
 }
+.edit-button{
+  color: rgb(48, 48, 252);
+  background: none;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  font-size: 16px;
+}
+.listing{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
 .three-dots{
   padding-right:30px;
 }

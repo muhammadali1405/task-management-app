@@ -42,10 +42,12 @@ class App extends React.Component {
   }
 
   edit(id) {
-    axios.get("http://localhost:8080/api/" + id).then(() => {
+    console.log(id)
+    axios.put("http://localhost:8080/api/" + id).then(() => {
       this.setState({
         status: "completed",
-      });
+      });      
+      this.componentDidMount();
     });
   }
 
@@ -89,7 +91,7 @@ class App extends React.Component {
                   task.status === "created" ?
                     (
                       <><div className="tasks-list">
-                      <input className="checkbox" type="checkbox"></input>
+                      <input className="checkbox" type="checkbox" onClick={(e) => this.edit(task.id)}></input>
                       <p className="task-name">{task.task}</p>
                       </div><hr size="1" className="seperation" /></>
                     )
@@ -106,10 +108,12 @@ class App extends React.Component {
                 task.status === "completed" ?
                   <><div className="tasks-list ">
                   <i className="checkbox fas fa-check"></i>
-                  <p className="task-name done">{task.task}</p>
-                  <button className="delete-button" onClick={(e) => this.delete(task.id)} type="submit" name="action">
-                    <i class="far fa-trash-alt"></i>
-                  </button>
+                    <div className=" listing">
+                      <p className="task-name done">{task.task}</p>
+                      <button className="delete-button" onClick={(e) => this.delete(task.id)} type="submit" name="action">
+                        <i class="far fa-trash-alt"></i>
+                      </button>
+                    </div>
                   </div><hr size="1" className="seperation" /></>
                 : null            
               
