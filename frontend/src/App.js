@@ -1,15 +1,129 @@
 import "./App.css";
-import Tasks from "./tasks/tasks";
+import React from "react";
+import axios from "axios";
 
-function App() {
-  return (
-    <div className="main">
-      <Topbar />
-      <hr size="1" />
-      <Addtask />
-      <Tasks />
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tasks: [],
+      id: 0,
+      task: "",
+      status: "created",
+    };
+  }
+  componentDidMount() {
+    axios.get("http://localhost:8080/api/").then((res) => {
+      this.setState({
+        tasks: res.data,
+        id: 0,
+        task: "",
+        status: "created",
+      });
+    });
+  }
+  submit(event, id) {
+    console.log(id);
+    event.preventDefault();
+    axios
+      .post("http://localhost:8080/api/", {
+        task: this.state.task, //adding new task
+        status: "created",
+      })
+      .then(() => {
+        this.componentDidMount();
+      });
+  }
+
+  delete(id) {
+    axios.delete("http://localhost:8080/api/" + id).then(() => {
+      this.componentDidMount();
+    });
+  }
+
+  edit(id) {
+    axios.get("http://localhost:8080/api/" + id).then(() => {
+      this.setState({
+        status: "completed",
+      });
+    });
+  }
+
+  render() {
+    return (
+      <div className="main">
+        <Topbar />
+        <hr size="1" />
+
+        {/* Add task Section starts  */}
+        <div className="add-task">
+          <form onSubmit={(e) => this.submit(e, this.state.id)}>
+            <div className="add-icon">
+              &nbsp;
+              <input
+                value={this.state.task}
+                onChange={(e) => this.setState({ task: e.target.value })}
+                className="input-box"
+                placeholder="Add a task"
+              />
+              &nbsp;
+              &nbsp;
+              <button className="submit-button" type="submit" name="action">
+              <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </form>
+
+          <div className="three-dots">
+            <i className="fas fa-ellipsis-v"></i>
+          </div>
+        </div>
+         {/* Add task Section ends  */}
+
+{/* showing created tasks Section starts  */}
+         <div className="tasks-view">
+
+          {
+              this.state.tasks.map((task) =>
+                
+                  task.status === "created" ?
+                    (
+                      <><div className="tasks-list">
+                      <input className="checkbox" type="checkbox"></input>
+                      <p className="task-name">{task.task}</p>
+                      </div><hr size="1" className="seperation" /></>
+                    )
+                    : null
+                
+              )
+          }
+ {/* showing created task Section ends  */}
+
+ {/* showing completed task Section starts  */}
+
+          {
+            this.state.tasks.map((task) =>
+                task.status === "completed" ?
+                  <><div className="tasks-list ">
+                  <i className="checkbox fas fa-check"></i>
+                  <p className="task-name done">{task.task}</p>
+                  <button className="delete-button" onClick={(e) => this.delete(task.id)} type="submit" name="action">
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                  </div><hr size="1" className="seperation" /></>
+                : null            
+              
+            )
+          }
+        
+ {/* showing completed task Section ends  */}
+
+</div>
+
+
+      </div>
+    );
+  }
 }
 
 function Topbar() {
@@ -19,32 +133,14 @@ function Topbar() {
         <div className="top-title">TASKS</div>
         <div className="bottom-title">
           TASK &nbsp;
-          <i class="fas fa-caret-down"></i>
+          <i className="fas fa-caret-down"></i>
         </div>
       </div>
       <div className="close-icon">
-        <i class="fas fa-times"></i>
+        <i className="fas fa-times"></i>
       </div>
     </div>
   );
 }
-
-function Addtask() {
-  return (
-    <div className="add-task">
-      <div className="add-icon">
-        <span>
-          <i class="fas fa-plus"></i>
-        </span> &nbsp;
-        <input className="input-box" placeholder="Add a Task" />
-      </div>
-      <div className="three-dots">
-        <i class="fas fa-ellipsis-v"></i>
-      </div>
-    </div>
-  )
-}
-
-
 
 export default App;
