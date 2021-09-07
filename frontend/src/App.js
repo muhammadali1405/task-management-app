@@ -37,7 +37,7 @@ class App extends React.Component {
 
   delete(id) {
     axios.delete("http://localhost:8080/api/" + id).then(() => {
-      this.componentDidMount();
+      this.componentDidMount(); //deleting a completed task
     });
   }
 
@@ -45,7 +45,7 @@ class App extends React.Component {
     console.log(id)
     axios.put("http://localhost:8080/api/" + id).then(() => {
       this.setState({
-        status: "completed",
+        status: "completed", //editing status of the task
       });      
       this.componentDidMount();
     });
@@ -67,6 +67,10 @@ class App extends React.Component {
                 onChange={(e) => this.setState({ task: e.target.value })}
                 className="input-box"
                 placeholder="Add a task"
+                required
+                validationErrors={
+                  {isDefaultRequiredValue: 'Field is required'}
+                }
               />
               &nbsp;
               &nbsp;
@@ -87,12 +91,17 @@ class App extends React.Component {
 
           {
               this.state.tasks.map((task) =>
-                
+                // displays if task status is created
                   task.status === "created" ?
                     (
                       <><div className="tasks-list">
                       <input className="checkbox" type="checkbox" onClick={(e) => this.edit(task.id)}></input>
+                      <div className=" listing">
                       <p className="task-name">{task.task}</p>
+                      <button className="delete-button" onClick={(e) => this.delete(task.id)} type="submit" name="action">
+                        <i class="far fa-trash-alt"></i>
+                      </button>
+                    </div>
                       </div><hr size="1" className="seperation" /></>
                     )
                     : null
@@ -105,6 +114,7 @@ class App extends React.Component {
 
           {
             this.state.tasks.map((task) =>
+            // displays if task status is completed
                 task.status === "completed" ?
                   <><div className="tasks-list ">
                   <i className="checkbox fas fa-check"></i>
