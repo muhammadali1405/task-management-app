@@ -27,11 +27,6 @@ public class TaskControl {
     return manageTask.findAll();
   }
 
-  @GetMapping("/{id}")
-  public Todolist GetTodo(@PathVariable String id) {
-    return manageTask.findById(id).orElse(null);
-  }
-
   @PostMapping("/")
     public Todolist postMethodName(@RequestBody Todolist todo) {
         return manageTask.save(todo);
